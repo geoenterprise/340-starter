@@ -318,7 +318,149 @@ nav a:hover {
 
 /************end Classification Grid **********/
 /*********************************************/
+/**************start Detail View ******************/
+/*********************************************/
 
+.vehicle-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 20px;
+  max-width: 1000px;
+  margin: auto;
+  background-color: var(--primary-color);
+  align-items: start;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 4px solid var(--tertiary-color);
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbnails img {
+  width: 80px;
+  height: 60px;
+  border-radius: 5px;
+  border: 2px solid var(--dark-grey);
+  cursor: pointer;
+}
+
+.vehicle-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.price-mileage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--light-grey);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mileage-box {
+  color: var(--secondary-color);
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.mileage-label {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+.mileage-label span {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 1px 3px;
+  margin: 0 0.5px;
+  border: 2px solid var(--dark-grey);
+  border-radius: 5px;
+  display: inline-block;
+  font-family: monospace;
+  text-align: center;
+  min-width: 10px;
+  box-shadow: 2px 2px 4px var(--tertiary-color);
+}
+.mileage-value {
+  display: block;
+  padding: 10px;
+  gap: 10px;
+  font-weight: bold;
+}
+.no-haggle {
+  font-weight: bold;
+  color: var(--dark-grey);
+}
+
+.price-amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.vehicle-description {
+  background: var(--primary-color);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.vehicle-specs p {
+  text-align: left;
+  margin: 5px 0;
+  color: var(--text-dark);
+}
+
+.vehicle-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 5px;
+  margin-top: 15px;
+}
+
+.vehicle-actions button {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.vehicle-actions button:hover {
+  background: var(--tertiary-color);
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+/************end Detail View *****************/
+/*********************************************/
 /******* FOOTER ********/
 footer {
   margin-top: 20px;
@@ -361,6 +503,10 @@ footer {
   .featured-img {
     width: 100%;
   }
+
+  .vehicle-detail {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -371,6 +517,12 @@ footer {
   .featured-text {
     font-size: 1rem;
     padding: 10px;
+  }
+  .vehicle-description {
+    grid-template-columns: 1fr;
+  }
+  .price-mileage {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 386px) {

@@ -79,6 +79,73 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/* **************************************
+ * Build the detail view HTML
+ * ************************************ */
+
+Util.buildDetailView = async function (vehicle) {
+  let detailView = `<div class="vehicle-detail">`;
+  const mileageText = 'MILEAGE';
+  const mileageLabelHTML = mileageText
+    .split('')
+    .map((letter) => `<span>${letter}</span>`)
+    .join('');
+  // Left side - Vehicle Image and Thumbnails
+  detailView += `
+    <div class="vehicle-image-section">
+      <img class="main-image" src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <div class="thumbnails">
+        <img src="${vehicle.inv_thumbnail}" alt="Thumbnail 1">
+        <img src="${vehicle.inv_thumbnail}" alt="Thumbnail 2">
+        <img src="${vehicle.inv_thumbnail}" alt="Thumbnail 3">
+      </div>
+    </div>`;
+
+  // Right side - Vehicle Details
+
+  detailView += `
+    <div class="vehicle-info">
+      <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
+      
+      <div class="price-mileage">
+        <div class="mileage-box">
+          <div class="mileage-label">${mileageLabelHTML}</div>
+          <span class="mileage-value">${new Intl.NumberFormat().format(
+            vehicle.inv_miles
+          )}</span>
+        </div>
+        <p class="vehicle-price">
+          <span class="no-haggle">No-Haggle Price </span>
+          <span class="price-amount">$${new Intl.NumberFormat().format(
+            vehicle.inv_price
+          )}</span>
+        </p>
+      </div>
+      <div class="vehicle-description">
+        <div class="vehicle-specs">
+          <p><strong>MPG:</strong> 29/37 (City/Highway)</p>
+          <p><strong>Ext. Color:</strong> ${vehicle.inv_color}</p>
+          <p><strong>Int. Color:</strong> Black</p>
+          <p><strong>Fuel Type:</strong> Gasoline</p>
+          <p><strong>Transmission:</strong> Xtronic CVT</p>
+          <p><strong>Drive Train:</strong> Front Wheel Drive</p>
+          <p><strong>VIN:</strong> 3N1AB7AP3KY362032</p>
+        </div>
+
+        <div class="vehicle-actions">
+          <button class="purchase-btn">Start My Purchase</button>
+          <button class="contact-btn">Contact Us</button>
+          <button class="testdrive-btn">Schedule Test Drive</button>
+          <button class="finance-btn">Apply for Financing</button>
+        </div>
+      </div>
+    </div>`;
+
+  detailView += `</div>`; // Close .vehicle-detail
+
+  return detailView;
+};
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for

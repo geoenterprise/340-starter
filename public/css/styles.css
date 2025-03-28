@@ -461,6 +461,86 @@ nav a:hover {
 
 /************end Detail View *****************/
 /*********************************************/
+/************Login Form *******************/
+/*********************************************/
+#login-form,
+#register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px solid var(--tertiary-color);
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 10vh auto; /* centered vertically and horizontally*/
+}
+
+#login-form label,
+#register-form label {
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--dark-grey);
+  /* text-align: left; */
+}
+
+#register-form input,
+#login-form input[type='email'],
+#login-form input[type='password'] {
+  background-color: var(--light-grey);
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+#register-form p,
+#login-form p {
+  font-size: 1rem;
+  color: var(--dark-grey);
+  margin-top: 10px;
+}
+
+#register-form button,
+#login-form button {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+#register-form button:hover,
+#login-form button:hover {
+  background: var(--tertiary-color);
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+#register-form span {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+/************end Login and Register Form *****************/
+/*********************************************/
+
 /******* FOOTER ********/
 footer {
   margin-top: 20px;

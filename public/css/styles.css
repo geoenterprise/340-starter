@@ -479,7 +479,9 @@ nav a:hover {
 }
 
 #login-form label,
-#register-form label {
+#register-form label,
+#addClass label,
+#addInv label {
   padding-top: 1rem;
   font-size: 1.2rem;
   font-weight: 700;
@@ -510,7 +512,9 @@ nav a:hover {
 }
 
 #register-form button,
-#login-form button {
+#login-form button,
+#addClass button,
+#addInv button {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -522,7 +526,9 @@ nav a:hover {
 }
 
 #register-form button:hover,
-#login-form button:hover {
+#login-form button:hover,
+#addClass button:hover,
+#addInv button:hover {
   background: var(--tertiary-color);
   color: var(--secondary-color);
   font-weight: bold;
@@ -540,6 +546,53 @@ nav a:hover {
 }
 /************end Login and Register Form *****************/
 /*********************************************/
+
+.inventory-management,
+#addClass,
+#addInv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px solid var(--tertiary-color);
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.inventory-management h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark-grey);
+  margin: 10px;
+}
+
+#addClass input,
+#addInv input,
+#addClass textarea,
+#addInv textarea,
+#addClass select,
+#addInv select {
+  background-color: var(--light-grey);
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.notice.success {
+  color: green;
+}
+.notice.errors {
+  color: red;
+}
 
 /******* FOOTER ********/
 footer {

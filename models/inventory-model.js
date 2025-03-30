@@ -45,8 +45,71 @@ async function getInventoryById(inv_id) {
   }
 }
 
+/* ***************************
+ *  Add New Classification to Database
+ * ************************** */
+async function addClassification(classification_name) {
+  try {
+    const sql =
+      'INSERT INTO classification (classification_name) VALUES ($1) RETURNING *';
+    const result = await pool.query(sql, [classification_name]);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error('Database error:', error);
+    return false;
+  }
+}
+
+async function addInventory(
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_miles,
+  inv_color,
+  inv_price,
+  inv_description,
+  classification_id
+) {
+  try {
+    const sql =
+      'INSERT INTO inventory (inv_make, inv_model, inv_year, inv_miles, inv_color, inv_price, inv_description, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+    const result = await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_price,
+      inv_description,
+      classification_id,
+    ]);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error('Database error:', error);
+    return false;
+  }
+}
+
+/* ***************************
+ *  Check existing classification name
+ * ************************** */
+
+async function checkExistingClassification(classification_name) {
+  try {
+    const sql = 'SELECT * FROM classification WHERE classification_name = $1';
+    const classification = await pool.query(sql, [classification_name]);
+    return classification.rowCount;
+  } catch (error) {
+    console.error('Database error:', error);
+    return false;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getInventoryById,
+  addClassification,
+  addInventory,
+  checkExistingClassification,
 };

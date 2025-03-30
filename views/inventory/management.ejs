@@ -1,0 +1,16 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %> <% if (messages.error) { %>
+<p class="error"><%= messages.error %></p>
+<% } %> <% if (messages.notice) { %>
+<p class="notice"><%= messages.notice %></p>
+<% } %>
+
+<div class="inventory-management">
+  <h2>
+    <a href="/inv/addClass" class="add-classification">Add Classification</a>
+  </h2>
+  <h2>
+    <a href="/inv/addInv" class="add-inventory">Add New Vehicles</a>
+  </h2>
+</div>

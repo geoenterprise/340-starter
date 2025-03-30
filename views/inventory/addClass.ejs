@@ -1,0 +1,18 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %> <% if (messages.error) { %>
+<p class="error"><%= messages.error %></p>
+<% } %> <% if (messages.notice) { %>
+<p class="notice"><%= messages.notice %></p>
+<% } %>
+
+<form action="/inv/addClass" id="addClass" method="POST">
+  <label for="classification_name">Classification Name:</label>
+  <input
+    type="text"
+    id="classification_name"
+    name="classification_name"
+    required
+  />
+  <button type="submit">Add Classification</button>
+</form>

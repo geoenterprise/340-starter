@@ -105,8 +105,10 @@ invCont.buildAddInventory = async function (req, res, next) {
       inv_model,
       inv_year,
       inv_description,
-      inv_price,
+      inv_image,
+      inv_thumbnail,
       inv_miles,
+      inv_price,
       inv_color,
       classification_id,
     } = req.body;
@@ -117,8 +119,10 @@ invCont.buildAddInventory = async function (req, res, next) {
       !inv_model ||
       !inv_year ||
       !inv_description ||
-      !inv_price ||
+      !inv_image ||
+      !inv_thumbnail ||
       !inv_miles ||
+      !inv_price ||
       !inv_color ||
       !classification_id
     ) {
@@ -138,8 +142,10 @@ invCont.buildAddInventory = async function (req, res, next) {
       inv_model,
       inv_year,
       inv_description,
-      inv_price,
+      inv_image,
+      inv_thumbnail,
       inv_miles,
+      inv_price,
       inv_color,
       classification_id
     );

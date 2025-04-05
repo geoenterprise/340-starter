@@ -4,6 +4,8 @@
 <p class="error"><%= messages.error %></p>
 <% } %> <% if (messages.success) { %>
 <p class="success"><%= messages.success %></p>
+<% } %> <% if (messages.notice) { %>
+<p class="notice"><%= messages.notice %></p>
 <% } %>
 
 <form action="/account/login" id="login-form" method="POST">

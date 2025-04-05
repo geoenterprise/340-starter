@@ -1,0 +1,11 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %> <% if (messages.error) { %>
+<p class="error"><%= messages.error %></p>
+<% } %> <% if (messages.success) { %>
+<p class="success"><%= messages.success %></p>
+<% } %>
+
+<h2>Welcome <%= account_firstname %></h2>
+
+<h3>You're logged in</h3>

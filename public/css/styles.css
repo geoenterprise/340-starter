@@ -481,7 +481,8 @@ nav a:hover {
 #login-form label,
 #register-form label,
 #addClass label,
-#addInv label {
+#addInv label,
+#editInv label {
   padding-top: 1rem;
   font-size: 1.2rem;
   font-weight: 700;
@@ -514,7 +515,8 @@ nav a:hover {
 #register-form button,
 #login-form button,
 #addClass button,
-#addInv button {
+#addInv button,
+#editInv button {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -528,7 +530,8 @@ nav a:hover {
 #register-form button:hover,
 #login-form button:hover,
 #addClass button:hover,
-#addInv button:hover {
+#addInv button:hover,
+#editInv button:hover {
   background: var(--tertiary-color);
   color: var(--secondary-color);
   font-weight: bold;
@@ -549,7 +552,8 @@ nav a:hover {
 
 .inventory-management,
 #addClass,
-#addInv {
+#addInv,
+#editInv {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -572,10 +576,13 @@ nav a:hover {
 
 #addClass input,
 #addInv input,
+#editInv input,
 #addClass textarea,
 #addInv textarea,
+#editInv textarea,
 #addClass select,
-#addInv select {
+#addInv select,
+#editInv select {
   background-color: var(--light-grey);
   display: block;
   width: 100%;

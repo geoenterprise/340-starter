@@ -1,6 +1,7 @@
 const utilities = require('.');
 const { body, validationResult } = require('express-validator');
 const inventoryModel = require('../models/inventory-model');
+const { parse } = require('dotenv');
 const validate = {};
 
 /*  **********************************
@@ -88,6 +89,40 @@ validate.checkInvData = async (req, res, next) => {
       classificationList,
       errors: errors.array(),
       ...req.body,
+    });
+  }
+  next();
+};
+
+/* **********************************
+ *  Validate Update Data
+ *  ********************************* */
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const inv_id = parseInt(req.body.inv_id);
+    let nav = await utilities.getNav();
+    const itemData = await invModel.getInventoryById(inv_id);
+    const classificationSelect = await utilities.buildClassificationList(
+      itemData.classification_id
+    );
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+    return res.render('./inventory/editInv', {
+      title: 'Edit ' + itemName,
+      nav,
+      classificationSelect: classificationSelect,
+      errors: null,
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_description: itemData.inv_description,
+      inv_image: itemData.inv_image,
+      inv_thumbnail: itemData.inv_thumbnail,
+      inv_price: itemData.inv_price,
+      inv_miles: itemData.inv_miles,
+      inv_color: itemData.inv_color,
+      classification_id: itemData.classification_id,
     });
   }
   next();

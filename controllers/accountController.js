@@ -141,8 +141,6 @@ async function accountLogin(req, res) {
  *  Deliver Account Management View
  * ************************************ */
 async function buildManagementView(req, res, next) {
-  console.log('✅ Entered buildManagementView');
-  console.log('accountData available to view:', res.locals.accountData);
   try {
     const nav = await utilities.getNav();
     const account_firstname = res.locals.accountData.account_firstname;

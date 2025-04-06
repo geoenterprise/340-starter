@@ -41,6 +41,15 @@ body {
   border-radius: 10px;
 }
 
+h2 {
+  margin: 10px;
+}
+
+h3 {
+  margin: 10px;
+  color: var(--dark-grey);
+}
+
 /******* HEADER ********/
 header {
   background: white;
@@ -482,7 +491,10 @@ nav a:hover {
 #register-form label,
 #addClass label,
 #addInv label,
-#editInv label {
+#editInv label,
+#deleteInv label,
+#account-update label,
+#update-password label {
   padding-top: 1rem;
   font-size: 1.2rem;
   font-weight: 700;
@@ -516,7 +528,10 @@ nav a:hover {
 #login-form button,
 #addClass button,
 #addInv button,
-#editInv button {
+#editInv button,
+#deleteInv button,
+#account-update button,
+#update-password button {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -531,13 +546,17 @@ nav a:hover {
 #login-form button:hover,
 #addClass button:hover,
 #addInv button:hover,
-#editInv button:hover {
+#editInv button:hover,
+#deleteInv button:hover,
+#account-update button:hover,
+#update-password button:hover {
   background: var(--tertiary-color);
   color: var(--secondary-color);
   font-weight: bold;
 }
 
-#register-form span {
+#register-form span,
+#update-password span {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -553,7 +572,10 @@ nav a:hover {
 .inventory-management,
 #addClass,
 #addInv,
-#editInv {
+#editInv,
+#deleteInv,
+#account-update,
+#update-password {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -577,12 +599,17 @@ nav a:hover {
 #addClass input,
 #addInv input,
 #editInv input,
+#deleteInv input,
+#account-update input,
+#update-password input,
 #addClass textarea,
 #addInv textarea,
 #editInv textarea,
+#deleteInv textarea,
 #addClass select,
 #addInv select,
-#editInv select {
+#editInv select,
+#deleteInv select {
   background-color: var(--light-grey);
   display: block;
   width: 100%;

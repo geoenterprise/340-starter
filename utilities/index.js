@@ -206,10 +206,38 @@ Util.checkJWTToken = (req, res, next) => {
  *  Check Login
  * ************************************ */
 Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next();
+  console.log('=== checkLogin middleware ===');
+  console.log('req.session.loggedin:', req.session.loggedin);
+  console.log('req.session.accountData:', req.session.accountData);
+  if (req.session.loggedin) {
+    res.locals.loggedin = true;
+    res.locals.accountData = req.session.accountData;
+    return next();
   } else {
+    console.log('User not logged in, redirecting.');
     req.flash('notice', 'Please log in.');
+    return res.redirect('/account/login');
+  }
+};
+
+/* ****************************************
+ * Middleware to check Employee or Admin access
+ **************************************** */
+Util.checkAccountType = (req, res, next) => {
+  console.log('=== checkAccountType middleware ===');
+  console.log('res.locals.accountData:', res.locals.accountData);
+  const accountType = res.locals.accountData?.account_type;
+  console.log('Detected account type:', accountType);
+
+  if (accountType === 'Employee' || accountType === 'Admin') {
+    console.log('✅ Access granted');
+    return next();
+  } else {
+    console.log('❌ Access denied, redirecting.');
+    req.flash(
+      'notice',
+      'Access denied. You must be logged in with proper permissions.'
+    );
     return res.redirect('/account/login');
   }
 };

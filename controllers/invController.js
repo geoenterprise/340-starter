@@ -329,4 +329,66 @@ invCont.updateInventory = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Build delete Inventory view
+ * ************************** */
+
+invCont.buildDeleteInventoryView = async (req, res, next) => {
+  const inv_id = parseInt(req.params.id);
+  let nav = await utilities.getNav();
+  const itemData = await invModel.getInventoryById(inv_id);
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+  res.render('./inventory/delete-confirm', {
+    title: 'Delete ' + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_price: itemData.inv_price,
+  });
+};
+
+/* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    const inv_id = parseInt(req.body.inv_id);
+    const itemData = await invModel.getInventoryById(inv_id);
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+    // Attempt to delete inventory
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    if (deleteResult) {
+      req.flash('notice', `The ${itemName} was successfully deleted.`);
+      res.redirect('/inv/management');
+    } else {
+      req.flash('notice', 'Sorry, the delete failed.');
+      res.status(501).render('./inventory/delete-confirm', {
+        title: 'Delete ' + itemName,
+        nav,
+        errors: null,
+        inv_id: itemData.inv_id,
+        inv_make: itemData.inv_make,
+        inv_model: itemData.inv_model,
+        inv_year: itemData.inv_year,
+        inv_price: itemData.inv_price,
+      });
+    }
+  } catch (error) {
+    console.error('Error deleting inventory:', error);
+    req.flash('notice', 'An unexpected error occurred.');
+    res.status(500).render('./inventory/delete-confirm', {
+      title: 'Delete Inventory',
+      nav: await utilities.getNav(),
+      errors: [{ msg: 'An unexpected error occurred. Please try again.' }],
+      ...req.body,
+    });
+  }
+};
+
 module.exports = invCont;

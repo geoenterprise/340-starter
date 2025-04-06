@@ -14,15 +14,21 @@ router.get('/detail/:id', utilities.handleErrors(invController.buildById));
 
 router.get(
   '/management',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildInvManagement)
 );
 
 router.get(
   '/addClass',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildAddClassificationView)
 );
 router.post(
   '/addClass',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   invValidate.classificationRules(),
   invValidate.checkClassData,
   utilities.handleErrors(invController.buildAddClassification)
@@ -30,10 +36,14 @@ router.post(
 
 router.get(
   '/addInv',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.buildAddInventoryView)
 );
 router.post(
   '/addInv',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   invValidate.inventoryRules(),
   invValidate.checkInvData,
   utilities.handleErrors(invController.buildAddInventory)
@@ -51,9 +61,23 @@ router.get(
 
 router.post(
   '/editInv',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
   invValidate.inventoryRules(),
   invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
+);
+
+router.get(
+  '/delete/:id',
+  utilities.handleErrors(invController.buildDeleteInventoryView)
+);
+
+router.post(
+  '/deleteInv',
+  utilities.checkJWTToken,
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.deleteInventory)
 );
 
 module.exports = router;

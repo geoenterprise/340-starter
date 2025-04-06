@@ -9,3 +9,15 @@
 <h2>Welcome <%= account_firstname %></h2>
 
 <h3>You're logged in</h3>
+
+<p>
+  <a href="/account/update/<%= accountData.account_id %>"
+    >Update Account Information</a
+  >
+</p>
+
+<% if (accountData.account_type === 'Employee' || accountData.account_type ===
+'Admin') { %>
+<h3>Inventory Management</h3>
+<p><a href="/inv/management">Manage Inventory</a></p>
+<% } %>

@@ -103,6 +103,8 @@ async function accountLogin(req, res) {
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password;
+      req.session.loggedin = true;
+      req.session.accountData = accountData;
       const accessToken = jwt.sign(
         accountData,
         process.env.ACCESS_TOKEN_SECRET,
@@ -135,7 +137,12 @@ async function accountLogin(req, res) {
   }
 }
 
+/* ****************************************
+ *  Deliver Account Management View
+ * ************************************ */
 async function buildManagementView(req, res, next) {
+  console.log('✅ Entered buildManagementView');
+  console.log('accountData available to view:', res.locals.accountData);
   try {
     const nav = await utilities.getNav();
     const account_firstname = res.locals.accountData.account_firstname;
@@ -143,11 +150,106 @@ async function buildManagementView(req, res, next) {
       title: 'Account Management',
       nav,
       account_firstname,
+      accountData: res.locals.accountData,
       errors: null,
     });
   } catch (error) {
     next(error);
   }
+}
+
+/* ****************************************
+ *  Deliver Update Account View
+ * ************************************ */
+async function buildUpdateView(req, res, next) {
+  try {
+    const nav = await utilities.getNav();
+    const accountId = req.params.accountId;
+    const accountData = await accountModel.getAccountById(accountId);
+    res.render('./account/update', {
+      title: 'Update Account',
+      nav,
+      accountData,
+      errors: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+ *  Process Update Account
+ * ************************************ */
+
+async function updateAccount(req, res, next) {
+  try {
+    const nav = await utilities.getNav();
+    const accountId = req.body.account_id;
+    const account_firstname = req.body.account_firstname;
+    const account_lastname = req.body.account_lastname;
+    const account_email = req.body.account_email;
+
+    const updateResult = await accountModel.updateAccount(
+      accountId,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    if (updateResult) {
+      req.flash('notice', 'Account updated successfully.');
+      return res.redirect('/account/');
+    } else {
+      req.flash('notice', 'Failed to update the account.');
+      return res.status(501).render('./account/update', {
+        title: 'Update Account',
+        nav,
+        errors: null,
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+ *  Process Update Password
+ * ************************************ */
+async function updatePassword(req, res, next) {
+  try {
+    const nav = await utilities.getNav();
+    const accountId = req.body.account_id;
+    const account_password = req.body.account_password;
+    const hashedPassword = await bcrypt.hashSync(account_password, 10);
+
+    const updateResult = await accountModel.updatePassword(
+      accountId,
+      hashedPassword
+    );
+
+    if (updateResult) {
+      req.flash('notice', 'Password updated successfully.');
+      return res.redirect('/account/');
+    } else {
+      req.flash('notice', 'Failed to update the password.');
+      return res.status(501).render('./account/update', {
+        title: 'Update Password',
+        nav,
+        errors: null,
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+ *  Process Logout
+ * ************************************ */
+async function logout(req, res) {
+  res.clearCookie('jwt');
+  req.flash('notice', 'You have been logged out.');
+  return res.redirect('/account/login');
 }
 
 module.exports = {
@@ -156,4 +258,8 @@ module.exports = {
   registerAccount,
   accountLogin,
   buildManagementView,
+  buildUpdateView,
+  updateAccount,
+  updatePassword,
+  logout,
 };

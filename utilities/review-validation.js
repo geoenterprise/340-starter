@@ -45,7 +45,7 @@ validate.checkReviewData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    res.render('review/add-review', {
+    res.render('./review/addReview', {
       errors,
       title: 'Add Review',
       nav,

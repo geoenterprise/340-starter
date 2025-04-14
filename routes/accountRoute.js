@@ -18,7 +18,6 @@ router.get(
 router.get(
   '/',
   utilities.checkLogin,
-  utilities.checkAccountType,
   utilities.handleErrors(accountController.buildManagementView)
 );
 

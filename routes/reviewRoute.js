@@ -7,7 +7,7 @@ const reviewValidate = require('../utilities/review-validation');
 // const regValidate = require('../utilities/account-validation');
 
 router.get(
-  '/',
+  '/management',
   utilities.checkLogin,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.buildReviewView)
@@ -23,7 +23,7 @@ router.get(
 router.post(
   '/add',
   utilities.checkLogin,
-  utilities.checkAccountType,
+  utilities.checkClientAccess,
   reviewValidate.reviewRules(),
   reviewValidate.checkReviewData,
   utilities.handleErrors(reviewController.addReview)

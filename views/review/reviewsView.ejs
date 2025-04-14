@@ -1,0 +1,8 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %> <%- messages('notice') %>
+
+<h2>View All Reviews</h2>
+<form action="/review/viewReviews" id="viewReviews" method="GET">
+  <button type="submit">View All Reviews</button>
+</form>

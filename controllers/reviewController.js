@@ -10,11 +10,14 @@ const reviewCont = {};
  * *************************************** */
 reviewCont.buildReviewView = async function (req, res, next) {
   let nav = await utilities.getNav();
+  const classificationList = await utilities.buildClassificationList();
   const messages = req.flash();
-  res.render('review/review', {
+  res.render('./review/management', {
     title: 'Review',
     nav,
     messages,
+    errors: null,
+    classificationList,
   });
 };
 
@@ -38,7 +41,7 @@ reviewCont.getReviewsByInvId = async function (req, res, next) {
 reviewCont.buildAddReview = async function (req, res, next) {
   let nav = await utilities.getNav();
   const messages = req.flash();
-  res.render('review/add-review', {
+  res.render('./review/addReview', {
     title: 'Add Review',
     nav,
     messages,
@@ -75,7 +78,7 @@ reviewCont.addReview = async function (req, res) {
     res.redirect('/review/view/' + result.insertId);
   } catch (error) {
     req.flash('notice', 'Error adding review. Please try again.');
-    res.status(500).render('review/add-review', {
+    res.status(500).render('./review/addReview', {
       title: 'Add Review',
       nav,
       messages: null,
@@ -92,7 +95,7 @@ reviewCont.buildUpdateReview = async function (req, res, next) {
   try {
     const reviewData = await reviewModel.getReviewById(reviewId);
     if (reviewData) {
-      res.render('review/update-review', {
+      res.render('./review/updateReview', {
         title: 'Update Review',
         nav,
         reviewData,
@@ -104,7 +107,7 @@ reviewCont.buildUpdateReview = async function (req, res, next) {
     }
   } catch (error) {
     req.flash('notice', 'Error retrieving review. Please try again.');
-    res.status(500).render('review/review', {
+    res.status(500).render('./review/review', {
       title: 'Review',
       nav,
       messages: null,
@@ -135,7 +138,7 @@ reviewCont.updateReview = async function (req, res) {
       res.redirect('/review/view/' + review_id);
     } else {
       req.flash('notice', 'Error updating review. Please try again.');
-      res.status(500).render('review/update-review', {
+      res.status(500).render('./review/updateReview', {
         title: 'Update Review',
         nav,
         messages: null,
@@ -143,7 +146,7 @@ reviewCont.updateReview = async function (req, res) {
     }
   } catch (error) {
     req.flash('notice', 'Error updating review. Please try again.');
-    res.status(500).render('review/update-review', {
+    res.status(500).render('./review/updateReview', {
       title: 'Update Review',
       nav,
       messages: null,
@@ -171,7 +174,7 @@ reviewCont.deleteReview = async function (req, res) {
     }
   } catch (error) {
     req.flash('notice', 'Error deleting review. Please try again.');
-    res.status(500).render('review/review', {
+    res.status(500).render('./review/review', {
       title: 'Review',
       nav,
       messages: null,
@@ -187,7 +190,7 @@ reviewCont.viewReview = async function (req, res) {
   try {
     const reviewData = await reviewModel.getReviewById(reviewId);
     if (reviewData) {
-      res.render('review/view-review', {
+      res.render('./review/reviewsView', {
         title: 'View Review',
         nav,
         reviewData,
@@ -198,7 +201,7 @@ reviewCont.viewReview = async function (req, res) {
     }
   } catch (error) {
     req.flash('notice', 'Error retrieving review. Please try again.');
-    res.status(500).render('review/review', {
+    res.status(500).render('./review/review', {
       title: 'Review',
       nav,
       messages: null,

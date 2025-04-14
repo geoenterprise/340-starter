@@ -1,0 +1,30 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %>
+
+<div class="review-management">
+  <h2>
+    <a href="/review/addReview" class="add-review">Add Review</a>
+  </h2>
+
+  <h2>
+    <a href="/review/reviewsView" class="view-all-reviews">View All Reviews</a>
+  </h2>
+
+  <p>View All Reviews</p>
+  <form action="/review/viewAllReviews" id="viewAllReviews" method="POST">
+    <button type="submit">View All Reviews</button>
+  </form>
+</div>
+
+<div class="manage-review">
+  <h2>Update/Delete Review</h2>
+  <p>Choose a classification to see those inventory items.</p>
+  <%- classificationList %>
+
+  <table id="reviewDisplay"></table>
+
+  <noscript>JavaScript must be enabled to use this page.</noscript>
+
+  <script src="../../js/review.js"></script>
+</div>

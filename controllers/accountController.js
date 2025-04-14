@@ -249,9 +249,6 @@ async function updatePassword(req, res, next) {
  *  Process Logout
  * ************************************ */
 async function logout(req, res) {
-  // // Set the flash message before destroying the session
-  // req.flash('notice', 'You have been logged out.');
-
   req.session.destroy((err) => {
     if (err) {
       console.error('Session destruction error:', err);

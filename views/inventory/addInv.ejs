@@ -1,8 +1,6 @@
 <% if (title) { %>
 <h1><%= title %></h1>
-<% } %> <% if (messages && messages.error) { %>
-<p class="error"><%= messages.error %></p>
-<% } %> <% if (errors) { %>
+<% } %> <%- messages() %> <% if (errors) { %>
 <ul class="notice">
   <% errors.forEach(error => { %>
   <li><%= error.msg %></li>

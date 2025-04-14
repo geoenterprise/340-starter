@@ -38,6 +38,14 @@ app.use(
 
 // Express Messages Middleware
 app.use(require('connect-flash')());
+
+app.use((req, res, next) => {
+  if (req.query.notice) {
+    req.flash('notice', req.query.notice);
+  }
+  next();
+});
+
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();

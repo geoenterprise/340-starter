@@ -1,3 +1,4 @@
+const e = require('connect-flash');
 const accountModel = require('../models/account-model');
 const utilities = require('../utilities/');
 const bcrypt = require('bcryptjs');
@@ -10,6 +11,9 @@ require('dotenv').config();
 async function buildLogin(req, res, next) {
   let nav = await utilities.getNav();
   const messages = req.flash();
+  if (req.query.notice) {
+    messages.notice = req.query.notice;
+  }
   res.render('account/login', {
     title: 'Login',
     nav,
@@ -245,9 +249,19 @@ async function updatePassword(req, res, next) {
  *  Process Logout
  * ************************************ */
 async function logout(req, res) {
-  res.clearCookie('jwt');
-  req.flash('notice', 'You have been logged out.');
-  return res.redirect('/account/login');
+  // // Set the flash message before destroying the session
+  // req.flash('notice', 'You have been logged out.');
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Session destruction error:', err);
+      req.flash('error', 'There was an issue logging you out.');
+      return res.redirect('/account');
+    }
+
+    res.clearCookie('jwt');
+    return res.redirect('/account/login?notice=You have been logged out.');
+  });
 }
 
 module.exports = {

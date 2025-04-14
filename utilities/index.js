@@ -132,6 +132,7 @@ Util.buildDetailView = async function (vehicle) {
           <p><strong>Transmission:</strong> Xtronic CVT</p>
           <p><strong>Drive Train:</strong> Front Wheel Drive</p>
           <p><strong>VIN:</strong> 3N1AB7AP3KY362032</p>
+          <p><strong>Reviews: ${vehicle.reviews_id}</strong></p>
         </div>
 
         <div class="vehicle-actions">
@@ -142,6 +143,24 @@ Util.buildDetailView = async function (vehicle) {
         </div>
       </div>
     </div>`;
+
+  // Reviews section
+  detailView += `
+  <div class="vehicle-reviews">
+    <h2>Customer Reviews</h2>`;
+  if (reviews.length > 0) {
+    reviews.forEach((review) => {
+      detailView += `
+      <div class="review">
+        <p><strong>Title:</strong> ${review.review_title}</p>
+        <p><strong>Rating:</strong> ${review.review_rating}/5</p>        
+        <p>${review.review_text}</p>
+      </div>`;
+    });
+  } else {
+    detailView += `<p>No reviews available for this vehicle.</p>`;
+  }
+  detailView += `</div>`; // Close reviews section
 
   detailView += `</div>`; // Close .vehicle-detail
 
@@ -230,6 +249,21 @@ Util.checkAccountType = (req, res, next) => {
       'notice',
       'Access denied. You must be logged in with proper permissions.'
     );
+    return res.redirect('/account/login');
+  }
+};
+
+/* ****************************************
+ * Middleware to check Client access
+ **************************************** */
+Util.checkClientAccess = (req, res, next) => {
+  const accountType = res.locals.accountData?.account_type;
+  console.log('Detected account type:', accountType);
+
+  if (accountType === 'Client') {
+    return next();
+  } else {
+    req.flash('notice', 'Access denied. Only clients can access reviews.');
     return res.redirect('/account/login');
   }
 };

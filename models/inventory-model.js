@@ -51,7 +51,7 @@ async function getInventoryById(inv_id) {
 async function addClassification(classification_name) {
   try {
     const sql =
-      'INSERT INTO classification (classification_name) VALUES ($1) RETURNING *';
+      'INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *';
     const result = await pool.query(sql, [classification_name]);
     return result.rowCount > 0;
   } catch (error) {
@@ -76,7 +76,7 @@ async function addInventory(
 ) {
   try {
     const sql =
-      'INSERT INTO inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_miles, inv_price, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+      'INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_miles, inv_price, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
     const result = await pool.query(sql, [
       inv_make,
       inv_model,
@@ -102,7 +102,8 @@ async function addInventory(
 
 async function checkExistingClassification(classification_name) {
   try {
-    const sql = 'SELECT * FROM classification WHERE classification_name = $1';
+    const sql =
+      'SELECT * FROM public.classification WHERE classification_name = $1';
     const classification = await pool.query(sql, [classification_name]);
     return classification.rowCount;
   } catch (error) {

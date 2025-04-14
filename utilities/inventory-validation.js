@@ -103,14 +103,14 @@ validate.checkUpdateData = async (req, res, next) => {
     const inv_id = parseInt(req.body.inv_id);
     let nav = await utilities.getNav();
     const itemData = await invModel.getInventoryById(inv_id);
-    const classificationSelect = await utilities.buildClassificationList(
+    const classificationList = await utilities.buildClassificationList(
       itemData.classification_id
     );
     const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
     return res.render('./inventory/editInv', {
       title: 'Edit ' + itemName,
       nav,
-      classificationSelect: classificationSelect,
+      classificationList: classificationList,
       errors: null,
       inv_id: itemData.inv_id,
       inv_make: itemData.inv_make,
@@ -134,6 +134,7 @@ validate.checkUpdateData = async (req, res, next) => {
 validate.checkClassData = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log('Validation Errors:', errors.array());
     const nav = await utilities.getNav();
     return res.render('./inventory/addClass', {
       title: 'Add Classification',
@@ -158,9 +159,7 @@ validate.classificationRules = () => {
       .withMessage('Please provide a new classification name to be added.')
       .custom(async (classification_name) => {
         const existingClassification =
-          await inventoryModel.checkExistingClassificationName(
-            classification_name
-          );
+          await inventoryModel.checkExistingClassification(classification_name);
         if (existingClassification) {
           throw new Error('Classification name already exists.');
         }

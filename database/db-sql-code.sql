@@ -245,3 +245,19 @@ UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
     inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
 
+CREATE TABLE public.review (
+  review_id SERIAL PRIMARY KEY,
+  review_title VARCHAR(255) NOT NULL,
+  review_text TEXT NOT NULL,
+  review_rating INTEGER NOT NULL CHECK (review_rating BETWEEN 1 AND 5),
+  account_id INTEGER NOT NULL,
+  inv_id INTEGER NOT NULL,
+  CONSTRAINT fk_review_account
+    FOREIGN KEY (account_id)
+    REFERENCES public.account (account_id)
+    ON DELETE CASCADE,
+  CONSTRAINT fk_review_inventory
+    FOREIGN KEY (inv_id)
+    REFERENCES public.inventory (inv_id)
+    ON DELETE CASCADE
+);

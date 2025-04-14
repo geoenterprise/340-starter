@@ -4,6 +4,8 @@
 <p class="error"><%= messages.error %></p>
 <% } %> <% if (messages.success) { %>
 <p class="success"><%= messages.success %></p>
+<% } %> <% if (messages.notice) { %>
+<p class="notice"><%= messages.notice %></p>
 <% } %>
 
 <h2>Welcome <%= account_firstname %></h2>
@@ -20,4 +22,7 @@
 'Admin') { %>
 <h3>Inventory Management</h3>
 <p><a href="/inv/management">Manage Inventory</a></p>
+<% } %> <% if (accountData.account_type === 'Client') { %>
+<h3>Review Management</h3>
+<p><a href="/reviews/management">My Reviews</a></p>
 <% } %>

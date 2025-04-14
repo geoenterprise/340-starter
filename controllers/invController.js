@@ -40,12 +40,12 @@ invCont.buildById = async function (req, res, next) {
  * ************************** */
 invCont.buildInvManagement = async function (req, res, next) {
   let nav = await utilities.getNav();
-  const classificationSelect = await utilities.buildClassificationList();
+  const classificationList = await utilities.buildClassificationList();
   res.render('./inventory/management', {
     title: 'Vehicle Management',
     nav,
     errors: null,
-    classificationSelect,
+    classificationList,
   });
 };
 
@@ -61,6 +61,9 @@ invCont.buildAddClassificationView = async function (req, res, next) {
   });
 };
 
+/* ***************************
+ *  Build add Classification Data
+ * ************************** */
 invCont.buildAddClassification = async function (req, res, next) {
   try {
     let nav = await utilities.getNav();
@@ -71,7 +74,7 @@ invCont.buildAddClassification = async function (req, res, next) {
       req.flash('notice', 'Classification added successfully.');
       return res.redirect('/inv/management');
     } else {
-      req.flash('notice', 'Error adding classification.');
+      req.flash('error', 'Error adding classification.');
       return res
         .status(500)
         .render('./inventory/addClass', { title: 'Add Classification', nav });
@@ -206,14 +209,14 @@ invCont.buildEditInventoryView = async (req, res, next) => {
   const inv_id = parseInt(req.params.id);
   let nav = await utilities.getNav();
   const itemData = await invModel.getInventoryById(inv_id);
-  const classificationSelect = await utilities.buildClassificationList(
+  const classificationList = await utilities.buildClassificationList(
     itemData.classification_id
   );
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
   res.render('./inventory/editInv', {
     title: 'Edit ' + itemName,
     nav,
-    classificationSelect: classificationSelect,
+    classificationList: classificationList,
     errors: null,
     inv_id: itemData.inv_id,
     inv_make: itemData.inv_make,
@@ -235,7 +238,7 @@ invCont.buildEditInventoryView = async (req, res, next) => {
 invCont.updateInventory = async function (req, res, next) {
   try {
     let nav = await utilities.getNav();
-    const classificationSelect = await utilities.buildClassificationList();
+    const classificationList = await utilities.buildClassificationList();
 
     // Destructure form data
     const {
@@ -270,7 +273,7 @@ invCont.updateInventory = async function (req, res, next) {
       return res.status(400).render('./inventory/editInv', {
         title: 'Edit Inventory',
         nav,
-        classificationSelect,
+        classificationList,
         errors: [{ msg: 'All fields are required.' }],
         ...req.body,
       });
@@ -301,7 +304,7 @@ invCont.updateInventory = async function (req, res, next) {
       res.status(501).render('./inventory/editInv', {
         title: 'Edit ' + itemName,
         nav,
-        classificationSelect: classificationSelect,
+        classificationList: classificationList,
         errors: null,
         inv_id,
         inv_make,
@@ -322,7 +325,7 @@ invCont.updateInventory = async function (req, res, next) {
     res.status(500).render('./inventory/editInv', {
       title: 'Edit Inventory',
       nav: await utilities.getNav(),
-      classificationSelect: await utilities.buildClassificationList(),
+      classificationList: await utilities.buildClassificationList(),
       errors: [{ msg: 'An unexpected error occurred. Please try again.' }],
       ...req.body,
     });

@@ -9,7 +9,10 @@
       "program": "${workspaceFolder}/server.js",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "type": "node",
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   ]
 }

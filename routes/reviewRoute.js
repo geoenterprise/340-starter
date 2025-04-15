@@ -66,4 +66,11 @@ router.get(
   utilities.handleErrors(reviewController.viewReview)
 );
 
+router.get(
+  '/reviewsView/:accountId',
+  utilities.checkJWTToken,
+  utilities.checkClientAccess,
+  utilities.handleErrors(reviewController.buildViewByAccountId)
+);
+
 module.exports = router;

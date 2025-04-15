@@ -267,4 +267,35 @@ Util.checkClientAccess = (req, res, next) => {
   }
 };
 
+/* ****************************************
+ * Build myReviews view HTML
+ * ************************************ */
+Util.buildMyReviews = async function (reviews) {
+  let reviewList = '<ul id="my-reviews">';
+  if (reviews.length > 0) {
+    reviews.forEach((review) => {
+      reviewList += '<li>';
+      reviewList +=
+        '<a href="/review/view/' +
+        review.review_id +
+        '" title="View ' +
+        review.review_title +
+        ' details">' +
+        review.review_title +
+        '</a>';
+      reviewList += '<div class="review-rating">';
+      reviewList +=
+        '<span class="star-rating" data-rating="' +
+        review.review_rating +
+        '/5"></span>';
+      reviewList += '</div>';
+      reviewList += '</li>';
+    });
+    reviewList += '</ul>';
+  } else {
+    reviewList += '<p class="notice">No reviews found.</p>';
+  }
+  return reviewList;
+};
+
 module.exports = Util;

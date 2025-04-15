@@ -207,4 +207,29 @@ reviewCont.viewReview = async function (req, res) {
   }
 };
 
+/* ****************************************
+ *  Build View by Account ID
+ * *************************************** */
+reviewCont.buildViewByAccountId = async function (req, res) {
+  let nav = await utilities.getNav();
+  const accountId = req.params.accountId;
+  const messages = req.flash();
+  try {
+    const reviews = await reviewModel.getReviewsByAccountId(accountId);
+    res.render('./review/reviewsView', {
+      title: 'My Reviews',
+      nav,
+      messages,
+      reviews,
+    });
+  } catch (error) {
+    req.flash('notice', 'Error retrieving reviews. Please try again.');
+    res.status(500).render('./review/reviewsView', {
+      title: 'My Reviews',
+      nav,
+      messages: null,
+    });
+  }
+};
+
 module.exports = reviewCont;

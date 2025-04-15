@@ -14,13 +14,33 @@ async function getClassifications() {
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
   try {
-    const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-      JOIN public.classification AS c 
-      ON i.classification_id = c.classification_id 
-      WHERE i.classification_id = $1`,
-      [classification_id]
-    );
+    // const data = await pool.query(
+    //   `SELECT * FROM public.inventory AS i
+    //   JOIN public.classification AS c
+    //   ON i.classification_id = c.classification_id
+    //   WHERE i.classification_id = $1`,
+    //   [classification_id]
+    // );
+    const sql = `
+      SELECT 
+        i.inv_id, 
+        i.inv_make, 
+        i.inv_model, 
+        i.inv_year, 
+        i.inv_price,
+        i.inv_image, 
+        i.inv_thumbnail, 
+        i.inv_description, 
+        c.classification_name, 
+        r.review_id
+      FROM public.inventory AS i
+      JOIN public.classification AS c
+      ON i.classification_id = c.classification_id
+      LEFT JOIN public.review AS r
+      ON i.inv_id = r.inv_id
+      WHERE i.classification_id = $1
+    `;
+    const data = await pool.query(sql, [classification_id]);
     return data.rows;
   } catch (error) {
     console.error('getclassificationsbyid error ' + error);

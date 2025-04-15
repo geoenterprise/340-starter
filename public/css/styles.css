@@ -495,7 +495,9 @@ nav a:hover {
 #deleteInv label,
 #account-update label,
 #update-password label,
-#addReview label {
+#addReview label,
+#updateReview label,
+#deleteReviewF label {
   padding-top: 1rem;
   font-size: 1.2rem;
   font-weight: 700;
@@ -533,7 +535,9 @@ nav a:hover {
 #deleteInv button,
 #account-update button,
 #update-password button,
-#addReview button {
+#addReview button,
+#updateReview button,
+#deleteReviewF button {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -552,7 +556,9 @@ nav a:hover {
 #deleteInv button:hover,
 #account-update button:hover,
 #update-password button:hover,
-#addReview button:hover {
+#addReview button:hover,
+#updateReview button:hover,
+#deleteReviewF button:hover {
   background: var(--tertiary-color);
   color: var(--secondary-color);
   font-weight: bold;
@@ -579,7 +585,9 @@ nav a:hover {
 #deleteInv,
 #account-update,
 #update-password,
-#addReview {
+#addReview,
+#updateReview,
+#deleteReviewF {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -607,11 +615,13 @@ nav a:hover {
 #account-update input,
 #update-password input,
 #addReview input,
+#updateReview input,
 #addClass textarea,
 #addInv textarea,
 #editInv textarea,
 #deleteInv textarea,
 #addReview textarea,
+#updateReview textarea,
 #addClass select,
 #addInv select,
 #editInv select,
@@ -640,7 +650,6 @@ nav a:hover {
 .review {
   display: flex;
   flex-direction: column;
-  align-items: left;
   justify-content: left;
   padding: 20px;
   border: 2px solid var(--tertiary-color);
@@ -680,6 +689,38 @@ nav a:hover {
   z-index: 2;
   width: calc(var(--rating) * 20%);
   overflow: hidden;
+}
+
+/***************************************/
+/* Myreviews */
+/*************************************/
+#my-reviews {
+  margin: 20px 0;
+}
+
+.review-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.review-item h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+.review-rating {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.review-item p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 /******* FOOTER ********/

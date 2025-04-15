@@ -49,21 +49,27 @@ router.get(
   '/delete-confirm/:reviewId',
   utilities.checkJWTToken,
   utilities.checkClientAccess,
-  utilities.handleErrors(reviewController.deleteReview)
+  utilities.handleErrors(reviewController.buildDeleteReview)
 );
 
 router.post(
   '/deleteReview',
   utilities.checkJWTToken,
   utilities.checkClientAccess,
-  utilities.handleErrors(reviewController.deleteReviewProcess)
+  utilities.handleErrors(reviewController.deleteReview)
 );
 
+// router.get(
+//   '/view/:reviewId',
+//   utilities.checkJWTToken,
+//   utilities.checkClientAccess,
+//   utilities.handleErrors(reviewController.viewReview)
+// );
 router.get(
-  '/view/:reviewId',
+  '/getReviews/:inv_id',
   utilities.checkJWTToken,
   utilities.checkClientAccess,
-  utilities.handleErrors(reviewController.viewReview)
+  utilities.handleErrors(reviewController.getReviewsByInvId)
 );
 
 router.get(

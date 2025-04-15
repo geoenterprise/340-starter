@@ -37,8 +37,8 @@ function buildInventoryList(data) {
     dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
     dataTable += `<td><a href='/review/getReviews/${element.inv_id}' title='Click to view'>View Reviews -</a></td>`;
     dataTable += `<td><a href='/review/addReview/${element.inv_id}' title='Click to add'> Add Review -</a></td>`;
-    dataTable += `<td><a href='/review/updateReview/${element.inv_id}' title='Click to edit'> Update Review -</a></td>`;
-    dataTable += `<td><a href='/review/delete-confirm/${element.inv_id}' title='Click to delete'> Delete Review</a></td></tr>`;
+    dataTable += `<td><a href='/review/updateReview/${element.review_id}?inv_id=${element.inv_id}' title='Click to edit'> Update Review -</a></td>`;
+    dataTable += `<td><a href='/review/delete-confirm/${element.review_id}?inv_id=${element.inv_id}' title='Click to delete'> Delete Review</a></td></tr>`;
   });
   dataTable += '</tbody>';
   // Display the contents in the Inventory Management view

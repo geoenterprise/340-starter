@@ -1,18 +1,26 @@
 <% if (title) { %>
 <h1><%= title %></h1>
-<% } %> <%- messages('notice') %> <%- messages('error') %>
+<% } %><% if (messages.notice) { %>
+<ul class="notice">
+  <% messages.notice.forEach(function (msg) { %>
+  <li><%= msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
 <p class="notice">
   Confirm Deletion - This action is permanent and cannot be undone.
 </p>
 
-<form action="/review/deleteReview" id="deleteReview" method="POST">
-  <label for="review_id">Review ID:</label>
-  <input type="number" id="review_id" name="review_id" required />
+<div class="delete-review-details">
+  <p><strong>Title:</strong> <%= review_title %></p>
+  <p><strong>Text:</strong> <%= review_text %></p>
+  <p><strong>Rating:</strong> <%= review_rating %></p>
+</div>
 
-  <% if (locals.review_id) { %>
-  <p>Review ID: <%= locals.review_id %></p>
-  <% } %>
+<form action="/review/deleteReview" id="deleteReviewF" method="POST">
+  <input type="hidden" name="review_id" value="<%= review_id %>" />
 
-  <button type="submit">Delete Review</button>
+  <button type="submit">Yes, Delete</button>
+  <a href="/review/management">Cancel</a>
 </form>

@@ -18,6 +18,7 @@ reviewCont.buildReviewView = async function (req, res, next) {
     nav,
     messages,
     errors: null,
+    account_id: req.session.accountData.account_id,
     classificationList,
   });
 };
@@ -90,20 +91,30 @@ reviewCont.buildUpdateReview = async function (req, res, next) {
   let nav = await utilities.getNav();
   const messages = req.flash();
   const reviewId = req.params.reviewId;
+  const invId = req.query.inv_id;
+
   try {
-    const reviewData = await reviewModel.getReviewById(reviewId);
+    const reviewData = await reviewModel.getReviewById(reviewId, invId);
+
     if (reviewData) {
+      const { review_id, review_title, review_text, review_rating } =
+        reviewData;
       res.render('./review/updateReview', {
         title: 'Update Review',
         nav,
-        reviewData,
+        review_id,
+        review_title,
+        review_text,
+        review_rating,
+        inv_id: invId,
         messages,
       });
     } else {
-      req.flash('notice', 'Review not found.');
-      res.redirect('/review/');
+      req.flash('notice', 'Review not found for the selected vehicle.');
+      res.redirect('/review/management');
     }
   } catch (error) {
+    console.error('Error retrieving review:', error);
     req.flash('notice', 'Error retrieving review. Please try again.');
     res.status(500).render('./review/review', {
       title: 'Review',
@@ -117,66 +128,108 @@ reviewCont.buildUpdateReview = async function (req, res, next) {
  * *************************************** */
 reviewCont.updateReview = async function (req, res) {
   let nav = await utilities.getNav();
-  const { review_id, review_title, review_text } = req.body;
+  const { review_id, review_title, review_text, review_rating, inv_id } =
+    req.body;
   const accountId = req.session.accountData.account_id;
 
-  // Create an updated review object
   const updatedReview = {
     review_id,
     review_title,
     review_text,
+    review_rating,
     account_id: accountId,
+    inv_id,
   };
 
   try {
-    // Update the review in the database
     const result = await reviewModel.updateReview(updatedReview);
-    if (result.affectedRows > 0) {
+
+    if (result.rowCount > 0) {
       req.flash('notice', 'Review updated successfully!');
-      res.redirect('/review/view/' + review_id);
+      res.redirect('/review/management');
     } else {
       req.flash('notice', 'Error updating review. Please try again.');
       res.status(500).render('./review/updateReview', {
         title: 'Update Review',
         nav,
-        messages: null,
+        review_id,
+        review_title,
+        review_text,
+        review_rating,
+        inv_id,
+        messages: req.flash(),
       });
     }
   } catch (error) {
+    console.error('Error updating review:', error);
     req.flash('notice', 'Error updating review. Please try again.');
     res.status(500).render('./review/updateReview', {
       title: 'Update Review',
       nav,
-      messages: null,
+      review_id,
+      review_title,
+      review_text,
+      review_rating,
+      inv_id,
+      messages: req.flash(),
     });
   }
 };
 /* ****************************************
- *  Process Delete Review
+ *  Deliver Delete Review view
  * *************************************** */
-reviewCont.deleteReview = async function (req, res) {
+reviewCont.buildDeleteReview = async function (req, res, next) {
   let nav = await utilities.getNav();
   const reviewId = req.params.reviewId;
+  const invId = req.query.inv_id;
+  const messages = req.flash();
+
   try {
-    const result = await reviewModel.deleteReview(reviewId);
-    if (result.affectedRows > 0) {
-      req.flash('notice', 'Review deleted successfully!');
-      res.redirect('/review/');
-    } else {
-      req.flash('notice', 'Error deleting review. Please try again.');
-      res.status(500).render('review/review', {
-        title: 'Review',
+    const reviewData = await reviewModel.getReviewById(reviewId, invId);
+
+    if (reviewData) {
+      const { review_id, review_title, review_text, review_rating } =
+        reviewData;
+      res.render('./review/delete-confirm', {
+        title: 'Delete Review',
         nav,
-        messages: null,
+        review_id,
+        review_title,
+        review_text,
+        review_rating,
+        inv_id: invId,
+        messages,
       });
+    } else {
+      req.flash('notice', 'Review not found.');
+      res.redirect('/review/management');
     }
   } catch (error) {
+    console.error('Error building delete confirmation page:', error);
+    req.flash('notice', 'Error loading delete confirmation page.');
+    res.redirect('/review/management');
+  }
+};
+
+/* ****************************************
+ *  Process Delete Review
+ * *************************************** */
+reviewCont.deleteReview = async function (req, res, next) {
+  const { review_id } = req.body;
+
+  try {
+    const deleteResult = await reviewModel.deleteReview(review_id);
+    if (deleteResult) {
+      req.flash('notice', 'Review successfully deleted.');
+      res.redirect('/review/management');
+    } else {
+      req.flash('notice', 'Error deleting review. Please try again.');
+      res.redirect('/review/delete-confirm');
+    }
+  } catch (error) {
+    console.error('Error deleting review:', error);
     req.flash('notice', 'Error deleting review. Please try again.');
-    res.status(500).render('./review/review', {
-      title: 'Review',
-      nav,
-      messages: null,
-    });
+    res.redirect('/review/delete-confirm');
   }
 };
 /* ****************************************
@@ -216,18 +269,21 @@ reviewCont.buildViewByAccountId = async function (req, res) {
   const messages = req.flash();
   try {
     const reviews = await reviewModel.getReviewsByAccountId(accountId);
+    const myReviews = await utilities.buildMyReviews(reviews);
     res.render('./review/reviewsView', {
       title: 'My Reviews',
       nav,
       messages,
-      reviews,
+      myReviews,
     });
   } catch (error) {
+    console.error('Error retrieving reviews:', error);
     req.flash('notice', 'Error retrieving reviews. Please try again.');
     res.status(500).render('./review/reviewsView', {
       title: 'My Reviews',
       nav,
       messages: null,
+      myReviews: null,
     });
   }
 };

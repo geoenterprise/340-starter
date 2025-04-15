@@ -57,10 +57,16 @@ async function getReviewById(review_id) {
 /* ***************************
  *  Add New Review to Database
  * ************************** */
-async function addReview(review_title, review_text, account_id) {
+async function addReview(
+  review_title,
+  review_text,
+  review_rating,
+  account_id,
+  inv_id
+) {
   try {
     const sql =
-      'INSERT INTO review (review_title, review_text, review_rating, account_id, inv_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+      'INSERT INTO public.review (review_title, review_text, review_rating, account_id, inv_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
     const result = await pool.query(sql, [
       review_title,
       review_text,

@@ -8,21 +8,21 @@ const reviewValidate = require('../utilities/review-validation');
 
 router.get(
   '/management',
-  utilities.checkLogin,
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.buildReviewView)
 );
 
 router.get(
-  '/add',
-  utilities.checkLogin,
+  '/addReview/:inv_id',
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.buildAddReview)
 );
 
 router.post(
-  '/add',
-  utilities.checkLogin,
+  '/addReview',
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   reviewValidate.reviewRules(),
   reviewValidate.checkReviewData,
@@ -30,15 +30,15 @@ router.post(
 );
 
 router.get(
-  '/update/:reviewId',
-  utilities.checkLogin,
+  '/updateReview/:reviewId',
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.buildUpdateReview)
 );
 
 router.post(
-  '/update',
-  utilities.checkLogin,
+  '/updateReview',
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   reviewValidate.reviewRules(),
   reviewValidate.checkReviewData,
@@ -46,15 +46,22 @@ router.post(
 );
 
 router.get(
-  '/delete/:reviewId',
-  utilities.checkLogin,
+  '/delete-confirm/:reviewId',
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.deleteReview)
 );
 
+router.post(
+  '/deleteReview',
+  utilities.checkJWTToken,
+  utilities.checkClientAccess,
+  utilities.handleErrors(reviewController.deleteReviewProcess)
+);
+
 router.get(
   '/view/:reviewId',
-  utilities.checkLogin,
+  utilities.checkJWTToken,
   utilities.checkClientAccess,
   utilities.handleErrors(reviewController.viewReview)
 );

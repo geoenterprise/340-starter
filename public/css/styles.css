@@ -494,7 +494,8 @@ nav a:hover {
 #editInv label,
 #deleteInv label,
 #account-update label,
-#update-password label {
+#update-password label,
+#addReview label {
   padding-top: 1rem;
   font-size: 1.2rem;
   font-weight: 700;
@@ -531,7 +532,8 @@ nav a:hover {
 #editInv button,
 #deleteInv button,
 #account-update button,
-#update-password button {
+#update-password button,
+#addReview button {
   background: var(--secondary-color);
   color: var(--primary-color);
   padding: 10px;
@@ -549,7 +551,8 @@ nav a:hover {
 #editInv button:hover,
 #deleteInv button:hover,
 #account-update button:hover,
-#update-password button:hover {
+#update-password button:hover,
+#addReview button:hover {
   background: var(--tertiary-color);
   color: var(--secondary-color);
   font-weight: bold;
@@ -575,7 +578,8 @@ nav a:hover {
 #editInv,
 #deleteInv,
 #account-update,
-#update-password {
+#update-password,
+#addReview {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -602,14 +606,17 @@ nav a:hover {
 #deleteInv input,
 #account-update input,
 #update-password input,
+#addReview input,
 #addClass textarea,
 #addInv textarea,
 #editInv textarea,
 #deleteInv textarea,
+#addReview textarea,
 #addClass select,
 #addInv select,
 #editInv select,
-#deleteInv select {
+#deleteInv select,
+#addReview select {
   background-color: var(--light-grey);
   display: block;
   width: 100%;
@@ -626,6 +633,53 @@ nav a:hover {
 }
 .notice.errors {
   color: red;
+}
+/***************************************/
+/* Style for the star rating container */
+/*************************************/
+.review {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 20px;
+  border: 2px solid var(--tertiary-color);
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  text-align: left;
+  margin: 5px auto;
+}
+
+.star-rating {
+  font-size: 1.5rem; /* Adjust the size of the stars */
+  color: #ffd700; /* Gold color for filled stars */
+  letter-spacing: 0.1rem;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  /* overflow: hidden; */
+}
+
+.star-rating::before {
+  content: '☆☆☆☆☆';
+  color: #ccc;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.star-rating::after {
+  content: '★★★★★';
+  color: #ffd700;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: calc(var(--rating) * 20%);
+  overflow: hidden;
 }
 
 /******* FOOTER ********/

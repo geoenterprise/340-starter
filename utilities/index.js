@@ -85,7 +85,7 @@ Util.buildClassificationGrid = async function (data) {
  * Build the detail view HTML
  * ************************************ */
 
-Util.buildDetailView = async function (vehicle) {
+Util.buildDetailView = async function (vehicle, reviews) {
   let detailView = `<div class="vehicle-detail">`;
   const mileageText = 'MILEAGE';
   const mileageLabelHTML = mileageText
@@ -132,7 +132,6 @@ Util.buildDetailView = async function (vehicle) {
           <p><strong>Transmission:</strong> Xtronic CVT</p>
           <p><strong>Drive Train:</strong> Front Wheel Drive</p>
           <p><strong>VIN:</strong> 3N1AB7AP3KY362032</p>
-          <p><strong>Reviews: ${vehicle.reviews_id}</strong></p>
         </div>
 
         <div class="vehicle-actions">
@@ -153,8 +152,8 @@ Util.buildDetailView = async function (vehicle) {
       detailView += `
       <div class="review">
         <p><strong>Title:</strong> ${review.review_title}</p>
-        <p><strong>Rating:</strong> ${review.review_rating}/5</p>        
-        <p>${review.review_text}</p>
+        <p><strong>Rating:</strong><span class="star-rating" data-rating="${review.review_rating}/5"></span></p>
+        <p><strong>Review:</strong> ${review.review_text}</p>
       </div>`;
     });
   } else {

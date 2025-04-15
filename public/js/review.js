@@ -35,10 +35,21 @@ function buildInventoryList(data) {
   data.forEach(function (element) {
     console.log(element.inv_id + ', ' + element.inv_model);
     dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
-    dataTable += `<td><a href='/review/addReview/${element.inv_id}' title='Click to add'>Add Review</a></td>`;
-    dataTable += `<td><a href='/review/delete-confirm/${element.inv_id}' title='Click to delete'>Delete Review</a></td></tr>`;
+    dataTable += `<td><a href='/review/getReviews/${element.inv_id}' title='Click to view'>View Reviews -</a></td>`;
+    dataTable += `<td><a href='/review/addReview/${element.inv_id}' title='Click to add'> Add Review -</a></td>`;
+    dataTable += `<td><a href='/review/updateReview/${element.inv_id}' title='Click to edit'> Update Review -</a></td>`;
+    dataTable += `<td><a href='/review/delete-confirm/${element.inv_id}' title='Click to delete'> Delete Review</a></td></tr>`;
   });
   dataTable += '</tbody>';
   // Display the contents in the Inventory Management view
   inventoryDisplay.innerHTML = dataTable;
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const starRatings = document.querySelectorAll('.star-rating');
+
+  starRatings.forEach((starRating) => {
+    const rating = starRating.getAttribute('data-rating');
+    starRating.style.setProperty('--rating', rating);
+  });
+});

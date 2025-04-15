@@ -4,21 +4,14 @@
 
 <div class="review-management">
   <h2>
-    <a href="/review/addReview" class="add-review">Add Review</a>
+    <a href="/review/reviewsView" class="view-all-reviews"
+      >View All My Reviews</a
+    >
   </h2>
-
-  <h2>
-    <a href="/review/reviewsView" class="view-all-reviews">View All Reviews</a>
-  </h2>
-
-  <p>View All Reviews</p>
-  <form action="/review/viewAllReviews" id="viewAllReviews" method="POST">
-    <button type="submit">View All Reviews</button>
-  </form>
 </div>
 
 <div class="manage-review">
-  <h2>Update/Delete Review</h2>
+  <h2>Manage Review</h2>
   <p>Choose a classification to see those inventory items.</p>
   <%- classificationList %>
 

@@ -1,5 +1,6 @@
 const e = require('connect-flash');
 const reviewModel = require('../models/review-model');
+const invModel = require('../models/inventory-model');
 const utilities = require('../utilities/');
 require('dotenv').config();
 
@@ -41,10 +42,15 @@ reviewCont.getReviewsByInvId = async function (req, res, next) {
 reviewCont.buildAddReview = async function (req, res, next) {
   let nav = await utilities.getNav();
   const messages = req.flash();
+  const inv_id = req.params.inv_id;
+  const data = await invModel.getInventoryById(inv_id);
+
   res.render('./review/addReview', {
-    title: 'Add Review',
+    title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
     nav,
     messages,
+    errors: null,
+    inv_id,
   });
 };
 
@@ -52,37 +58,29 @@ reviewCont.buildAddReview = async function (req, res, next) {
  *  Process Add Review
  * *************************************** */
 reviewCont.addReview = async function (req, res) {
-  let nav = await utilities.getNav();
-  const { review_title, review_text, review_rating, inv_id } = req.body;
-
-  if (!inv_id) {
-    req.flash('notice', 'No inventory ID provided. Review cannot be added.');
-    return res.redirect('/inventory');
-  }
-
-  const accountId = req.session.accountData.account_id;
-
-  // Create a new review object
-  const newReview = {
-    review_title,
-    review_rating,
-    review_text,
-    account_id: accountId,
-    inv_id,
-  };
-
   try {
-    // Insert the new review into the database
-    const result = await reviewModel.addReview(newReview);
-    req.flash('notice', 'Review added successfully!');
-    res.redirect('/review/view/' + result.insertId);
+    const { review_title, review_text, review_rating, inv_id } = req.body;
+    const account_id = req.session.accountData.account_id;
+
+    const result = await reviewModel.addReview(
+      review_title,
+      review_text,
+      review_rating,
+      account_id,
+      inv_id
+    );
+
+    if (result) {
+      req.flash('notice', 'Review added successfully!');
+      res.redirect('/inv/detail/' + inv_id);
+    } else {
+      req.flash('error', 'Failed to add review.');
+      res.redirect('/review/addReview/' + inv_id);
+    }
   } catch (error) {
-    req.flash('notice', 'Error adding review. Please try again.');
-    res.status(500).render('./review/addReview', {
-      title: 'Add Review',
-      nav,
-      messages: null,
-    });
+    console.error('Error adding review:', error);
+    req.flash('error', 'An error occurred while adding the review.');
+    res.status(500).redirect('/review/addReview/' + inv_id);
   }
 };
 /* ****************************************
